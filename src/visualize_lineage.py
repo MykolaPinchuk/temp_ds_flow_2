@@ -8,47 +8,23 @@ def parse_logs_for_lineage(log_dir):
 
     for log_file in log_files:
         with open(log_file, 'r') as f:
-            lines = f.readlines()
+            content = f.read()
 
-        notebook_name = None
-        in_read_block = False
-        in_written_block = False
+        # Find the notebook name for this log file
+        notebook_match = re.search(r'Notebook: (.*)', content)
+        if not notebook_match:
+            continue
+        notebook_name = os.path.basename(notebook_match.group(1).strip())
 
-        for line in lines:
-            # Strip the logger's timestamp and prefix
-            clean_line = re.sub(r'^.*?- ', '', line).strip()
+        # Find all files read
+        files_read = re.findall(r'FILE_READ: (.*)', content)
+        for filepath in files_read:
+            edges.add((os.path.basename(filepath.strip()), notebook_name))
 
-            # First, find the notebook name for this log file
-            if not notebook_name:
-                match = re.match(r'Notebook: (.*)', clean_line)
-                if match:
-                    notebook_name = os.path.basename(match.group(1).strip())
-                continue # Continue to the next line to start processing
-
-            # State transitions to enter a block
-            if clean_line == '--- Files Read: ---':
-                in_read_block = True
-                in_written_block = False
-                continue
-            elif clean_line == '--- Files Written: ---':
-                in_written_block = True
-                in_read_block = False
-                continue
-
-            # Process lines if we are inside a block
-            if in_read_block or in_written_block:
-                # If the line starts with '-', it's a file path
-                if clean_line.startswith('- '):
-                    filepath = os.path.basename(clean_line.lstrip('- ').strip())
-                    if filepath:
-                        if in_read_block:
-                            edges.add((filepath, notebook_name))
-                        elif in_written_block:
-                            edges.add((notebook_name, filepath))
-                # If it's any other line, we've exited the block
-                else:
-                    in_read_block = False
-                    in_written_block = False
+        # Find all files written
+        files_written = re.findall(r'FILE_WRITTEN: (.*)', content)
+        for filepath in files_written:
+            edges.add((notebook_name, os.path.basename(filepath.strip())))
 
     print("Found the following connections:")
     for start, end in sorted(list(edges)):

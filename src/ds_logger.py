@@ -29,67 +29,49 @@ _log_info = {}
 _original_to_csv = pd.DataFrame.to_csv
 _original_read_csv = pd.read_csv
 
-def _get_notebook_path():
-    """Tries to get the path of the jupyter notebook."""
-    try:
-        import ipykernel.kernelapp
-        from jupyter_core import paths
-        import json
-        import re
 
-        kernel_id = re.search('kernel-(.*).json',
-                            ipykernel.kernelapp.IPKernelApp.instance().connection_file).group(1)
-        for p in paths.jupyter_runtime_dir():
-            try:
-                with open(os.path.join(p, 'nbserver-%s.json' % kernel_id)) as f:
-                    return json.load(f)['notebook_dir']
-            except:
-                pass
-    except Exception as e:
-        return None
-    return None
 
 def _log_file_read(filepath, *args, **kwargs):
     if 'logger' in _log_info:
-        if not _log_info.get('read_header_written'):
-            _log_info['logger'].info('--- Files Read: ---')
-            _log_info['read_header_written'] = True
-        _log_info['logger'].info(f"- {filepath}")
+        _log_info['logger'].info(f"FILE_READ: {filepath}")
     return _original_read_csv(filepath, *args, **kwargs)
+
+def _create_metadata(original_path, log_info):
+    """Generates a timestamped path and creates a metadata file."""
+    now = datetime.now()
+    timestamp_str = now.strftime("%Y%m%d_%H%M%S")
+    iso_timestamp = now.isoformat()
+
+    base, ext = os.path.splitext(original_path)
+    new_path = f"{base}_{timestamp_str}{ext}"
+
+    metadata = {
+        'filename': os.path.basename(new_path),
+        'timestamp': iso_timestamp,
+        'notebook_path': log_info.get('notebook_path'),
+        'notebook_name': log_info.get('notebook_name'),
+    }
+
+    # Determine metadata path
+    data_dir = os.path.dirname(original_path)
+    metadata_dir = os.path.join(data_dir, 'metadata')
+    os.makedirs(metadata_dir, exist_ok=True)
+    
+    metadata_filename = f"{os.path.splitext(os.path.basename(new_path))[0]}.json"
+    metadata_filepath = os.path.join(metadata_dir, metadata_filename)
+
+    with open(metadata_filepath, 'w') as f:
+        json.dump(metadata, f, indent=4)
+    
+    return new_path, metadata_filepath
 
 def _log_file_write(df, filepath, *args, **kwargs):
     if 'logger' not in _log_info:
         return _original_to_csv(df, filepath, *args, **kwargs)
 
-    # Generate timestamp for filename
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    base, ext = os.path.splitext(filepath)
-    new_filepath = f"{base}_{timestamp}{ext}"
+    new_filepath, _ = _create_metadata(filepath, _log_info)
 
-    # Create metadata
-    metadata = {
-        'filename': os.path.basename(new_filepath),
-        'timestamp': datetime.now().isoformat(),
-        'notebook_path': _log_info.get('notebook_path'),
-        'notebook_name': _log_info.get('notebook_name'),
-    }
-
-    # Determine metadata path
-    data_dir = os.path.dirname(filepath)
-    metadata_dir = os.path.join(data_dir, 'metadata')
-    if not os.path.exists(metadata_dir):
-        os.makedirs(metadata_dir)
-    
-    metadata_filename = f"{os.path.splitext(os.path.basename(new_filepath))[0]}.json"
-    metadata_filepath = os.path.join(metadata_dir, metadata_filename)
-
-    with open(metadata_filepath, 'w') as f:
-        json.dump(metadata, f, indent=4)
-
-    if not _log_info.get('write_header_written'):
-        _log_info['logger'].info('--- Files Written: ---')
-        _log_info['write_header_written'] = True
-    _log_info['logger'].info(f"- {new_filepath}")
+    _log_info['logger'].info(f"FILE_WRITTEN: {new_filepath}")
 
     return _original_to_csv(df, new_filepath, *args, **kwargs)
 
@@ -97,27 +79,7 @@ def _log_model_save(value, filename, *args, **kwargs):
     if 'logger' not in _log_info:
         return _original_joblib_dump(value, filename, *args, **kwargs)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    base, ext = os.path.splitext(filename)
-    new_filename = f"{base}_{timestamp}{ext}"
-
-    metadata = {
-        'filename': os.path.basename(new_filename),
-        'timestamp': datetime.now().isoformat(),
-        'notebook_path': _log_info.get('notebook_path'),
-        'notebook_name': _log_info.get('notebook_name'),
-    }
-
-    model_dir = os.path.dirname(filename)
-    metadata_dir = os.path.join(model_dir, 'metadata')
-    if not os.path.exists(metadata_dir):
-        os.makedirs(metadata_dir)
-    
-    metadata_filename = f"{os.path.splitext(os.path.basename(new_filename))[0]}.json"
-    metadata_filepath = os.path.join(metadata_dir, metadata_filename)
-
-    with open(metadata_filepath, 'w') as f:
-        json.dump(metadata, f, indent=4)
+    new_filename, metadata_filepath = _create_metadata(filename, _log_info)
 
     _log_info['logger'].info(f"MODEL_SAVED: {new_filename}")
     _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
@@ -128,27 +90,7 @@ def _log_plot_save(fname, *args, **kwargs):
     if 'logger' not in _log_info:
         return _original_plt_savefig(fname, *args, **kwargs)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    base, ext = os.path.splitext(fname)
-    new_fname = f"{base}_{timestamp}{ext}"
-
-    metadata = {
-        'filename': os.path.basename(new_fname),
-        'timestamp': datetime.now().isoformat(),
-        'notebook_path': _log_info.get('notebook_path'),
-        'notebook_name': _log_info.get('notebook_name'),
-    }
-
-    report_dir = os.path.dirname(fname)
-    metadata_dir = os.path.join(report_dir, 'metadata')
-    if not os.path.exists(metadata_dir):
-        os.makedirs(metadata_dir)
-    
-    metadata_filename = f"{os.path.splitext(os.path.basename(new_fname))[0]}.json"
-    metadata_filepath = os.path.join(metadata_dir, metadata_filename)
-
-    with open(metadata_filepath, 'w') as f:
-        json.dump(metadata, f, indent=4)
+    new_fname, metadata_filepath = _create_metadata(fname, _log_info)
 
     _log_info['logger'].info(f"PLOT_SAVED: {new_fname}")
     _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
@@ -161,7 +103,7 @@ def start_logging(notebook_name, notebook_description):
     _log_info = {
         'start_time': time.time(),
         'notebook_name': notebook_name,
-        'notebook_path': os.path.join(_get_notebook_path() or '', notebook_name)
+        'notebook_path': os.path.join('notebooks', notebook_name)
     }
 
     # Setup logger
