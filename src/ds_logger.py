@@ -51,7 +51,10 @@ def _get_notebook_path():
 
 def _log_file_read(filepath, *args, **kwargs):
     if 'logger' in _log_info:
-        _log_info['logger'].info(f"FILE_READ: {filepath}")
+        if not _log_info.get('read_header_written'):
+            _log_info['logger'].info('--- Files Read: ---')
+            _log_info['read_header_written'] = True
+        _log_info['logger'].info(f"- {filepath}")
     return _original_read_csv(filepath, *args, **kwargs)
 
 def _log_file_write(df, filepath, *args, **kwargs):
@@ -83,8 +86,10 @@ def _log_file_write(df, filepath, *args, **kwargs):
     with open(metadata_filepath, 'w') as f:
         json.dump(metadata, f, indent=4)
 
-    _log_info['logger'].info(f"FILE_WRITTEN: {new_filepath}")
-    _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
+    if not _log_info.get('write_header_written'):
+        _log_info['logger'].info('--- Files Written: ---')
+        _log_info['write_header_written'] = True
+    _log_info['logger'].info(f"- {new_filepath}")
 
     return _original_to_csv(df, new_filepath, *args, **kwargs)
 
@@ -172,8 +177,8 @@ def start_logging(notebook_name, notebook_description):
 
     _log_info['logger'] = logger
 
-    logger.info(f"START_LOGGING: Notebook '{notebook_name}'")
-    logger.info(f"NOTEBOOK_DESCRIPTION: {notebook_description}")
+    logger.info(f"Notebook: {notebook_name}")
+    logger.info(f"Description: {notebook_description}")
 
     # Patch pandas
     pd.read_csv = _log_file_read
@@ -199,6 +204,9 @@ def end_logging(results=None):
 
     if results:
         logger.info(f"RESULTS: {json.dumps(results, indent=4)}")
+
+    # Add a final separator to make parsing easier
+    logger.info('---')
 
     # Unpatch pandas and other libraries
     pd.read_csv = _original_read_csv
