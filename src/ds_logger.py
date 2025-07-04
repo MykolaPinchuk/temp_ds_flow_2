@@ -145,7 +145,7 @@ def end_logging(results=None):
     logger.info(f"RUN_DURATION: {duration:.2f} seconds")
 
     if results:
-        logger.info(f"RESULTS: {json.dumps(results, indent=4)}")
+        logger.info(f"NOTEBOOK_RESULTS:\n{json.dumps(results, indent=4)}")
 
     # Add a final separator to make parsing easier
     logger.info('---')

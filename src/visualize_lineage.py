@@ -1,20 +1,25 @@
 import os
 import re
+import textwrap
 from graphviz import Digraph
 
 def parse_logs_for_lineage(log_dir):
     edges = set()
     log_files = [os.path.join(log_dir, f) for f in os.listdir(log_dir) if f.endswith('.log')]
 
-    for log_file in log_files:
-        with open(log_file, 'r') as f:
-            content = f.read()
-
-        # Find the notebook name for this log file
-        notebook_match = re.search(r'Notebook: (.*)', content)
-        if not notebook_match:
+    for log_file_path in log_files:
+        log_filename = os.path.basename(log_file_path)
+        
+        # Extract notebook basename from log filename, e.g., '01_ingest_data' from '01_ingest_data_20250703_162918.log'
+        match = re.match(r'(.+)_(\d{8}_\d{6})\.log$', log_filename)
+        if not match:
             continue
-        notebook_name = os.path.basename(notebook_match.group(1).strip())
+        
+        notebook_basename = match.group(1)
+        notebook_name = f"{notebook_basename}.ipynb"
+
+        with open(log_file_path, 'r') as f:
+            content = f.read()
 
         # Find all files read
         files_read = re.findall(r'FILE_READ: (.*)', content)
@@ -40,10 +45,12 @@ def visualize_lineage(edges, output_path):
         nodes.add(end)
 
     for node in nodes:
+        # Wrap node labels for better readability
+        label = '\n'.join(textwrap.wrap(node, width=30))
         if '.ipynb' in node:
-            dot.node(node, shape='box', style='rounded,filled', fillcolor='lightblue')
+            dot.node(node, label=label, shape='box', style='rounded,filled', fillcolor='lightblue')
         else:
-            dot.node(node, shape='ellipse', style='filled', fillcolor='lightgrey')
+            dot.node(node, label=label, shape='ellipse', style='filled', fillcolor='lightgrey')
 
     for start, end in edges:
         dot.edge(start, end)
@@ -53,7 +60,7 @@ def visualize_lineage(edges, output_path):
         print(f'Lineage graph saved to {output_path}.png')
     except Exception as e:
         print(f'Error rendering graph: {e}')
-        print('Please ensure that Graphviz is installed and in your system\'s PATH.')
+        print("Please ensure that Graphviz is installed and in your system's PATH.")
 
 if __name__ == '__main__':
     # Correctly set paths relative to the script location in src/
