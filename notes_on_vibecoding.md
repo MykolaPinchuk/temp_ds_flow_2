@@ -14,13 +14,6 @@
 
 
 
-
-
-
-
-
-
-
 ### Original prompt provided to the first gen of LLM agent to code this project from scratch:
 
 I am a Data Scientist. My common pain point is messy codebase and data/source lineage. I have many steps of data preprocessing pipelines which I constantly change. I find it difficult to track which data files were created and when and by which notebook and how they are different from each other. I have similar challenges in tracking ML experiments. All my code so far is organized in jupyter notebooks.
@@ -36,3 +29,20 @@ Each notebook imports some logging module which logs main events: files read, fi
 Each notebook will have notebook_description text object in its header. So notebook logging should include at least 5 things: notebook description, data files read, data files written, running time (start, end), and optional outputs. These outputs can e.g. be results of some ML experiment.
 
 First, think about this task conceptually. Do not jump to coding before you fully thought through the big picture.
+
+
+### Prompt to the LLM agent to continue working on this:
+
+This repo is a project coded up by several generations of LLM agents. First, please read README, DOCUMENTATION and notes_on_videbcoding (especially Original prompt provided to the first gen of LLM agent to code this project from scratch section). Then, read and understand the entire codebase contained in this repo. 
+
+If anything is unclear, please stop and ask questions. If everything is clear, then proceed to the following things from todo.md:
+- 
+
+General guidelines:
+- Please do not implement things from sections of todo file I have not asked for above.
+- Please do not use git. I will make commit myself after verifying that everything works.
+If you want to document completion of these tasks, document it in tasks_done.md file. Do not touch todo.md. 
+- Please do not ask me to copy-paste any text in jupyter notebooks. It is your job to edit code, not mine.
+
+
+/jdi

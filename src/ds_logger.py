@@ -39,7 +39,7 @@ def _log_file_read(filepath, *args, **kwargs):
 def _create_metadata(original_path, log_info):
     """Generates a timestamped path and creates a metadata file."""
     now = datetime.now()
-    timestamp_str = now.strftime("%Y%m%d_%H%M%S")
+    timestamp_str = now.strftime("%Y%m%d_%H%M")
     iso_timestamp = now.isoformat()
 
     base, ext = os.path.splitext(original_path)
@@ -48,8 +48,7 @@ def _create_metadata(original_path, log_info):
     metadata = {
         'filename': os.path.basename(new_path),
         'timestamp': iso_timestamp,
-        'notebook_path': log_info.get('notebook_path'),
-        'notebook_name': log_info.get('notebook_name'),
+        'notebook_source': os.path.join(log_info.get('notebook_path', ''), log_info.get('notebook_name', '')),
     }
 
     # Determine metadata path
@@ -103,7 +102,7 @@ def start_logging(notebook_name, notebook_description):
     _log_info = {
         'start_time': time.time(),
         'notebook_name': notebook_name,
-        'notebook_path': os.path.join('notebooks', notebook_name)
+        'notebook_path': 'notebooks'
     }
 
     # Setup logger
