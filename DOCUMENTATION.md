@@ -75,3 +75,5 @@ python src/visualize_lineage.py
 ```
 
 This will parse all the log files in the `logs/` directory and generate a `pipeline_lineage.png` image in the `reports/` directory, showing the dependencies between your notebooks and data.
+
+Earlier version had 07 notebook to visualize lineage. I removed this notebook since it duplicates visualize_lineage.py. visualize_lineage.py is a single source of truth on DAG visualization.
