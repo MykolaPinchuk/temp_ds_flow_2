@@ -11,7 +11,7 @@
 - Keep each commit to larger than 4 prompts.
 - Keep total number of prompts less than 8. After that, commit, push, and restart the chat.
 - Always tell an agent at the very beginning not to overengineer stuff. E.g., Anthropic models tend to overengineer code by trying to fllow SWE best practices very rigorously. For DS purposes this is often an overkill. It leads to unnecessray complexity.
-
+- Gem 2.5 can sometimes eneter some kind of loop, at least in terms of its printed thoughts. If this happens, restart it manually.
 
 
 ### Original prompt provided to the first gen of LLM agent to code this project from scratch:
@@ -38,11 +38,21 @@ This repo is a project coded up by several generations of LLM agents. First, ple
 If anything is unclear, please stop and ask questions. If everything is clear, then proceed to the following things from todo.md:
 - 
 
-General guidelines:
+- Please do not implement things from sections of todo file I have not asked for above.
+
+/jdi
+
+
+
+
+
+
+### General agent guidelines:
 - Please do not implement things from sections of todo file I have not asked for above.
 - Please do not use git. I will make commit myself after verifying that everything works.
 If you want to document completion of these tasks, document it in tasks_done.md file. Do not touch todo.md. 
 - Please do not ask me to copy-paste any text in jupyter notebooks. It is your job to edit code, not mine.
+- If you figure out how to solve some task you have been stuck on for a while, feel free to document what you have learnt in lessons_for_future_agents.md. When documenting such lesson, specify exactly which kind of model you are. If you find that any lessons documented there by previous generations are not useful, feel free to edit/remove them.
+- If unsure whether to ask for permission to do or run something, then do not. Go ahead and do it.
+- Try maintaining consistency of the codebase. Adding temporary files for debugging and conversion is fine. But after validating that everything works, please remove them is they are no longer needed.
 
-
-/jdi
