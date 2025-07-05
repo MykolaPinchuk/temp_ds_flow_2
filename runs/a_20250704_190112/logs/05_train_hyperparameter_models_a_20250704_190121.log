@@ -1,0 +1,204 @@
+2025-07-04 19:01:21,921 - Script: 05_train_hyperparameter_models_a.py
+2025-07-04 19:01:21,921 - Description: Trains multiple RF and XGBoost models with different hyperparameters on data version a.
+2025-07-04 19:01:21,921 - FILE_READ: runs/a_20250704_190112/data/processed/iris_features_a.csv
+2025-07-04 19:01:21,926 - FILE_WRITTEN: runs/a_20250704_190112/data/processed/X_test_a.csv
+2025-07-04 19:01:21,949 - MODEL_SAVED: runs/a_20250704_190112/models/iris_rf_simple_a.joblib
+2025-07-04 19:01:21,949 - METADATA_WRITTEN: runs/a_20250704_190112/models/metadata/iris_rf_simple_a.json
+2025-07-04 19:01:22,080 - MODEL_SAVED: runs/a_20250704_190112/models/iris_rf_medium_a.joblib
+2025-07-04 19:01:22,080 - METADATA_WRITTEN: runs/a_20250704_190112/models/metadata/iris_rf_medium_a.json
+2025-07-04 19:01:22,436 - MODEL_SAVED: runs/a_20250704_190112/models/iris_rf_complex_a.joblib
+2025-07-04 19:01:22,437 - METADATA_WRITTEN: runs/a_20250704_190112/models/metadata/iris_rf_complex_a.json
+2025-07-04 19:01:22,564 - MODEL_SAVED: runs/a_20250704_190112/models/iris_xgb_simple_a.joblib
+2025-07-04 19:01:22,564 - METADATA_WRITTEN: runs/a_20250704_190112/models/metadata/iris_xgb_simple_a.json
+2025-07-04 19:01:22,672 - MODEL_SAVED: runs/a_20250704_190112/models/iris_xgb_complex_a.joblib
+2025-07-04 19:01:22,672 - METADATA_WRITTEN: runs/a_20250704_190112/models/metadata/iris_xgb_complex_a.json
+2025-07-04 19:01:22,677 - END_LOGGING: Script '05_train_hyperparameter_models_a.py'
+2025-07-04 19:01:22,678 - RUN_DURATION: 0.76 seconds
+2025-07-04 19:01:22,678 - SCRIPT_RESULTS:
+{
+    "data_shapes": {
+        "input_df": [
+            150,
+            6
+        ],
+        "X_train": [
+            120,
+            5
+        ],
+        "X_test": [
+            30,
+            5
+        ],
+        "y_train": [
+            120
+        ],
+        "y_test": [
+            30
+        ]
+    },
+    "model_performance": {
+        "rf_simple": {
+            "accuracy": 1.0,
+            "hyperparameters": {
+                "bootstrap": "True",
+                "ccp_alpha": "0.0",
+                "class_weight": "None",
+                "criterion": "gini",
+                "max_depth": "2",
+                "max_features": "sqrt",
+                "max_leaf_nodes": "None",
+                "max_samples": "None",
+                "min_impurity_decrease": "0.0",
+                "min_samples_leaf": "1",
+                "min_samples_split": "2",
+                "min_weight_fraction_leaf": "0.0",
+                "monotonic_cst": "None",
+                "n_estimators": "10",
+                "n_jobs": "None",
+                "oob_score": "False",
+                "random_state": "42",
+                "verbose": "0",
+                "warm_start": "False"
+            }
+        },
+        "rf_medium": {
+            "accuracy": 0.9666666666666667,
+            "hyperparameters": {
+                "bootstrap": "True",
+                "ccp_alpha": "0.0",
+                "class_weight": "None",
+                "criterion": "gini",
+                "max_depth": "10",
+                "max_features": "sqrt",
+                "max_leaf_nodes": "None",
+                "max_samples": "None",
+                "min_impurity_decrease": "0.0",
+                "min_samples_leaf": "1",
+                "min_samples_split": "2",
+                "min_weight_fraction_leaf": "0.0",
+                "monotonic_cst": "None",
+                "n_estimators": "100",
+                "n_jobs": "None",
+                "oob_score": "False",
+                "random_state": "42",
+                "verbose": "0",
+                "warm_start": "False"
+            }
+        },
+        "rf_complex": {
+            "accuracy": 0.9666666666666667,
+            "hyperparameters": {
+                "bootstrap": "True",
+                "ccp_alpha": "0.0",
+                "class_weight": "None",
+                "criterion": "gini",
+                "max_depth": "None",
+                "max_features": "sqrt",
+                "max_leaf_nodes": "None",
+                "max_samples": "None",
+                "min_impurity_decrease": "0.0",
+                "min_samples_leaf": "1",
+                "min_samples_split": "2",
+                "min_weight_fraction_leaf": "0.0",
+                "monotonic_cst": "None",
+                "n_estimators": "300",
+                "n_jobs": "None",
+                "oob_score": "False",
+                "random_state": "42",
+                "verbose": "0",
+                "warm_start": "False"
+            }
+        },
+        "xgb_simple": {
+            "accuracy": 0.9666666666666667,
+            "hyperparameters": {
+                "objective": "multi:softprob",
+                "base_score": "None",
+                "booster": "None",
+                "callbacks": "None",
+                "colsample_bylevel": "None",
+                "colsample_bynode": "None",
+                "colsample_bytree": "None",
+                "device": "None",
+                "early_stopping_rounds": "None",
+                "enable_categorical": "False",
+                "eval_metric": "mlogloss",
+                "feature_types": "None",
+                "gamma": "None",
+                "grow_policy": "None",
+                "importance_type": "None",
+                "interaction_constraints": "None",
+                "learning_rate": "0.5",
+                "max_bin": "None",
+                "max_cat_threshold": "None",
+                "max_cat_to_onehot": "None",
+                "max_delta_step": "None",
+                "max_depth": "2",
+                "max_leaves": "None",
+                "min_child_weight": "None",
+                "missing": "nan",
+                "monotone_constraints": "None",
+                "multi_strategy": "None",
+                "n_estimators": "50",
+                "n_jobs": "None",
+                "num_parallel_tree": "None",
+                "random_state": "42",
+                "reg_alpha": "None",
+                "reg_lambda": "None",
+                "sampling_method": "None",
+                "scale_pos_weight": "None",
+                "subsample": "None",
+                "tree_method": "None",
+                "validate_parameters": "None",
+                "verbosity": "None",
+                "use_label_encoder": "False"
+            }
+        },
+        "xgb_complex": {
+            "accuracy": 1.0,
+            "hyperparameters": {
+                "objective": "multi:softprob",
+                "base_score": "None",
+                "booster": "None",
+                "callbacks": "None",
+                "colsample_bylevel": "None",
+                "colsample_bynode": "None",
+                "colsample_bytree": "None",
+                "device": "None",
+                "early_stopping_rounds": "None",
+                "enable_categorical": "False",
+                "eval_metric": "mlogloss",
+                "feature_types": "None",
+                "gamma": "None",
+                "grow_policy": "None",
+                "importance_type": "None",
+                "interaction_constraints": "None",
+                "learning_rate": "0.05",
+                "max_bin": "None",
+                "max_cat_threshold": "None",
+                "max_cat_to_onehot": "None",
+                "max_delta_step": "None",
+                "max_depth": "6",
+                "max_leaves": "None",
+                "min_child_weight": "None",
+                "missing": "nan",
+                "monotone_constraints": "None",
+                "multi_strategy": "None",
+                "n_estimators": "200",
+                "n_jobs": "None",
+                "num_parallel_tree": "None",
+                "random_state": "42",
+                "reg_alpha": "None",
+                "reg_lambda": "None",
+                "sampling_method": "None",
+                "scale_pos_weight": "None",
+                "subsample": "None",
+                "tree_method": "None",
+                "validate_parameters": "None",
+                "verbosity": "None",
+                "use_label_encoder": "False"
+            }
+        }
+    }
+}
+2025-07-04 19:01:22,678 - ---
