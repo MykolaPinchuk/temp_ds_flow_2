@@ -25,103 +25,102 @@ _project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Global state to hold logging info
 _log_info = {}
 
-# Original pandas functions
+# Original functions that will be patched
 _original_to_csv = pd.DataFrame.to_csv
 _original_read_csv = pd.read_csv
 
 
-
 def _log_file_read(filepath, *args, **kwargs):
+    """Wrapper for file read operations to log the event."""
     if 'logger' in _log_info:
         _log_info['logger'].info(f"FILE_READ: {filepath}")
     return _original_read_csv(filepath, *args, **kwargs)
 
 def _create_metadata(original_path, log_info):
-    """Generates a timestamped path and creates a metadata file."""
+    """Generates a metadata file for the given path."""
     now = datetime.now()
-    timestamp_str = now.strftime("%Y%m%d_%H%M")
     iso_timestamp = now.isoformat()
 
-    base, ext = os.path.splitext(original_path)
-    new_path = f"{base}_{timestamp_str}{ext}"
-
     metadata = {
-        'filename': os.path.basename(new_path),
+        'filename': os.path.basename(original_path),
         'timestamp': iso_timestamp,
-        'notebook_source': os.path.join(log_info.get('notebook_path', ''), log_info.get('notebook_name', '')),
+        'script_source': os.path.join(log_info.get('script_path', ''), log_info.get('script_name', '')),
     }
 
-    # Determine metadata path
+    # Determine metadata path relative to the project root
     data_dir = os.path.dirname(original_path)
     metadata_dir = os.path.join(data_dir, 'metadata')
     os.makedirs(metadata_dir, exist_ok=True)
     
-    metadata_filename = f"{os.path.splitext(os.path.basename(new_path))[0]}.json"
+    metadata_filename = f"{os.path.splitext(os.path.basename(original_path))[0]}.json"
     metadata_filepath = os.path.join(metadata_dir, metadata_filename)
 
     with open(metadata_filepath, 'w') as f:
         json.dump(metadata, f, indent=4)
     
-    return new_path, metadata_filepath
+    return metadata_filepath
 
 def _log_file_write(df, filepath, *args, **kwargs):
+    """Wrapper for pd.DataFrame.to_csv to log the event and create metadata."""
     if 'logger' not in _log_info:
         return _original_to_csv(df, filepath, *args, **kwargs)
 
-    new_filepath, _ = _create_metadata(filepath, _log_info)
-
-    _log_info['logger'].info(f"FILE_WRITTEN: {new_filepath}")
-
-    return _original_to_csv(df, new_filepath, *args, **kwargs)
+    _create_metadata(filepath, _log_info)
+    _log_info['logger'].info(f"FILE_WRITTEN: {filepath}")
+    return _original_to_csv(df, filepath, *args, **kwargs)
 
 def _log_model_save(value, filename, *args, **kwargs):
+    """Wrapper for joblib.dump to log the event and create metadata."""
     if 'logger' not in _log_info:
         return _original_joblib_dump(value, filename, *args, **kwargs)
 
-    new_filename, metadata_filepath = _create_metadata(filename, _log_info)
-
-    _log_info['logger'].info(f"MODEL_SAVED: {new_filename}")
+    metadata_filepath = _create_metadata(filename, _log_info)
+    _log_info['logger'].info(f"MODEL_SAVED: {filename}")
     _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
-
-    return _original_joblib_dump(value, new_filename, *args, **kwargs)
+    return _original_joblib_dump(value, filename, *args, **kwargs)
 
 def _log_plot_save(fname, *args, **kwargs):
+    """Wrapper for plt.savefig to log the event and create metadata."""
     if 'logger' not in _log_info:
         return _original_plt_savefig(fname, *args, **kwargs)
 
-    new_fname, metadata_filepath = _create_metadata(fname, _log_info)
-
-    _log_info['logger'].info(f"PLOT_SAVED: {new_fname}")
+    metadata_filepath = _create_metadata(fname, _log_info)
+    _log_info['logger'].info(f"PLOT_SAVED: {fname}")
     _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
+    return _original_plt_savefig(fname, *args, **kwargs)
 
-    return _original_plt_savefig(new_fname, *args, **kwargs)
-
-def start_logging(notebook_name, notebook_description):
-    """Starts logging for a notebook run."""
+def start_logging(script_name, script_description):
+    """Starts logging for a script run."""
     global _log_info
     _log_info = {
         'start_time': time.time(),
-        'notebook_name': notebook_name,
-        'notebook_path': 'notebooks'
+        'script_name': script_name,
+        'script_path': 'scripts'
     }
 
     # Setup logger
-    log_filename = f"{os.path.splitext(notebook_name)[0]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    log_filename = f"{os.path.splitext(script_name)[0]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
     log_filepath = os.path.join(_project_root, 'logs', log_filename)
+
+    # Ensure log directory exists
+    os.makedirs(os.path.dirname(log_filepath), exist_ok=True)
     
-    logger = logging.getLogger(notebook_name)
+    logger = logging.getLogger(script_name)
     logger.setLevel(logging.INFO)
-    handler = logging.FileHandler(log_filepath)
-    formatter = logging.Formatter('%(asctime)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    
+    # Prevent duplicate handlers if logger is reused (e.g., in interactive sessions)
+    if not logger.handlers:
+        handler = logging.FileHandler(log_filepath)
+        formatter = logging.Formatter('%(asctime)s - %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
     _log_info['logger'] = logger
 
-    logger.info(f"Notebook: {notebook_name}")
-    logger.info(f"Description: {notebook_description}")
+    logger.info(f"Script: {script_name}")
+    logger.info(f"Description: {script_description}")
 
-    # Patch pandas
+    # Patch libraries
     pd.read_csv = _log_file_read
     pd.DataFrame.to_csv = _log_file_write
     if joblib:
@@ -130,7 +129,7 @@ def start_logging(notebook_name, notebook_description):
         plt.savefig = _log_plot_save
 
 def end_logging(results=None):
-    """Ends logging for a notebook run."""
+    """Ends logging for a script run."""
     global _log_info
     if 'logger' not in _log_info:
         print("Logging was not started.")
@@ -140,16 +139,16 @@ def end_logging(results=None):
     end_time = time.time()
     duration = end_time - _log_info['start_time']
 
-    logger.info(f"END_LOGGING: Notebook '{_log_info['notebook_name']}'")
+    logger.info(f"END_LOGGING: Script '{_log_info['script_name']}'")
     logger.info(f"RUN_DURATION: {duration:.2f} seconds")
 
     if results:
-        logger.info(f"NOTEBOOK_RESULTS:\n{json.dumps(results, indent=4)}")
+        logger.info(f"SCRIPT_RESULTS:\n{json.dumps(results, indent=4)}")
 
     # Add a final separator to make parsing easier
     logger.info('---')
 
-    # Unpatch pandas and other libraries
+    # Unpatch libraries
     pd.read_csv = _original_read_csv
     pd.DataFrame.to_csv = _original_to_csv
     if joblib:

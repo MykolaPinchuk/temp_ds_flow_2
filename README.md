@@ -9,4 +9,9 @@ This repository is a proof-of-concept for a structured data science workflow. It
 - **Data Lineage**: Automatically generate metadata for all artifacts and visualize the entire pipeline as a dependency graph.
 - **Minimal Code Changes**: Designed to integrate into existing notebook-based workflows with minimal modifications.
 
+## Human notes
+LLM agents cannot handle jupyter notebooks well. Thus, this codebase minimizes notebook usage.
+
+Run the whole pipeline with `bash run_pipeline.sh b`.
+
 For detailed usage and explanation of the components, please see `DOCUMENTATION.md`.

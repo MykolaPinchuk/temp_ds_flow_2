@@ -10,11 +10,11 @@ The project uses a simple, hierarchical directory structure:
   - `raw/`: For raw, immutable data.
   - `processed/`: For cleaned, transformed, or feature-engineered data.
   - `*/metadata/`: Each data directory has a `metadata` subdirectory to store JSON files with information about each data artifact.
-- `notebooks/`: Contains all Jupyter notebooks, organized by workflow steps (e.g., `01_ingest_data.ipynb`).
+- `scripts/`: Contains Python scripts for the data science workflow, organized by workflow steps (e.g., `01_ingest_data.py`).
 - `src/`: Contains Python source code.
   - `ds_logger.py`: The core logging module.
   - `visualize_lineage.py`: A script to generate the data lineage graph.
-- `logs/`: Contains timestamped log files for each notebook run.
+- `logs/`: Contains timestamped log files for each script run.
 - `models/`: For trained machine learning models.
 - `reports/`: For generated reports, plots, and the data lineage graph.
 
@@ -28,30 +28,55 @@ The module uses a technique called "monkey-patching" at runtime. When you call `
 
 ### Usage
 
-To enable logging in a notebook, you only need to add two lines of code:
+The workflow is executed by running the Python scripts in the `scripts/` directory in sequence from the project root. The logging is automatically handled within each script.
 
-1.  At the beginning of the notebook:
-    ```python
-    import sys
-    sys.path.append('../src')
-    import ds_logger
+Here is an example of how to run the pipeline for experiment 'a':
 
-    notebook_name = '01_ingest_data.ipynb' # Should be the actual name of the notebook
-    notebook_description = 'This notebook ingests the raw data.'
-    ds_logger.start_logging(notebook_name, notebook_description)
-    ```
+```bash
+# 1. Ingest the original data
+python scripts/01a_ingest_data.py
 
-2.  At the end of the notebook:
-    ```python
-    # You can pass a dictionary of results to be logged
-    results = {'accuracy': 0.95, 'hyperparameters': {'C': 1.0, 'kernel': 'rbf'}}
-    ds_logger.end_logging(results=results)
-    ```
+# 2. Preprocess the data
+python scripts/02_preprocess_data.py --input_version a
+
+# 3. Perform Exploratory Data Analysis
+python scripts/03_eda.py --input_version a
+
+# 4. Engineer features
+python scripts/04_feature_engineering.py --input_version a
+
+# 5. Train models
+python scripts/05_train_alternative_model.py --input_version a
+
+# 6. Evaluate models
+python scripts/06_evaluate_alternative_models.py --input_version a
+```
+
+To run the pipeline for experiment 'b' (with simulated new data), you would run:
+```bash
+# 1. Ingest the simulated new data
+python scripts/01b_ingest_data.py
+
+# 2. Preprocess the data
+python scripts/02_preprocess_data.py --input_version b
+
+# 3. Perform Exploratory Data Analysis
+python scripts/03_eda.py --input_version b
+
+# 4. Engineer features
+python scripts/04_feature_engineering.py --input_version b
+
+# 5. Train models
+python scripts/05_train_alternative_model.py --input_version b
+
+# 6. Evaluate models
+python scripts/06_evaluate_alternative_models.py --input_version b
+```
 
 ### Logged Information
 
-For each notebook run, a log file is created in the `logs/` directory. It contains:
-- Notebook name and description.
+For each script run, a log file is created in the `logs/` directory. It contains:
+- Script name and description.
 - Files read and written.
 - Models and plots saved.
 - Any custom results you provide.
@@ -59,14 +84,14 @@ For each notebook run, a log file is created in the `logs/` directory. It contai
 
 ### Metadata
 
-For every file written by a logged notebook (datasets, models, plots), a corresponding JSON file is created in the `metadata` subdirectory of the artifact's location. This JSON contains:
+For every file written by a logged script (datasets, models, plots), a corresponding JSON file is created in the `metadata` subdirectory of the artifact's location. This JSON contains:
 - The filename of the artifact.
 - A precise timestamp of its creation.
-- The name of the notebook that created it.
+- The name of the script that created it.
 
 ## Data Lineage Visualization
 
-To see how all your notebooks and data files are connected, you can generate a lineage graph.
+To see how all your scripts and data files are connected, you can generate a lineage graph.
 
 Run the following command from the project root directory:
 
@@ -74,6 +99,4 @@ Run the following command from the project root directory:
 python src/visualize_lineage.py
 ```
 
-This will parse all the log files in the `logs/` directory and generate a `pipeline_lineage.png` image in the `reports/` directory, showing the dependencies between your notebooks and data.
-
-Earlier version had 07 notebook to visualize lineage. I removed this notebook since it duplicates visualize_lineage.py. visualize_lineage.py is a single source of truth on DAG visualization.
+This will parse all the log files in the `logs/` directory and generate a `pipeline_lineage.png` image in the `reports/` directory, showing the dependencies between your scripts and data.
