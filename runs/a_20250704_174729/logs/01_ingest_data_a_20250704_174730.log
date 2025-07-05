@@ -1,0 +1,10 @@
+2025-07-04 17:47:30,308 - Script: 01_ingest_data_a.py
+2025-07-04 17:47:30,308 - Description: Loads the original Iris dataset and saves it to the raw data directory for experiment A.
+2025-07-04 17:47:30,308 - FILE_WRITTEN: runs/a_20250704_174729/data/raw/iris_raw_a.csv
+2025-07-04 17:47:30,312 - END_LOGGING: Script '01_ingest_data_a.py'
+2025-07-04 17:47:30,312 - RUN_DURATION: 0.00 seconds
+2025-07-04 17:47:30,312 - SCRIPT_RESULTS:
+{
+    "rows_ingested": 150
+}
+2025-07-04 17:47:30,312 - ---

@@ -1,0 +1,10 @@
+2025-07-04 17:52:37,797 - Script: 01_ingest_data_b.py
+2025-07-04 17:52:37,797 - Description: Loads and simulates a 50% increase in the Iris dataset for experiment B.
+2025-07-04 17:52:37,797 - FILE_WRITTEN: runs/b_20250704_175236/data/raw/iris_raw_b.csv
+2025-07-04 17:52:37,800 - END_LOGGING: Script '01_ingest_data_b.py'
+2025-07-04 17:52:37,800 - RUN_DURATION: 0.00 seconds
+2025-07-04 17:52:37,800 - SCRIPT_RESULTS:
+{
+    "rows_ingested": 225
+}
+2025-07-04 17:52:37,800 - ---

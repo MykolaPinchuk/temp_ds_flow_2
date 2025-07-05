@@ -89,21 +89,21 @@ def _log_plot_save(fname, *args, **kwargs):
     _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
     return _original_plt_savefig(fname, *args, **kwargs)
 
-def start_logging(script_name, script_description):
+def start_logging(script_name, script_description, run_dir):
     """Starts logging for a script run."""
     global _log_info
     _log_info = {
         'start_time': time.time(),
         'script_name': script_name,
-        'script_path': 'scripts'
+        'script_path': 'scripts',
+        'run_dir': run_dir
     }
 
     # Setup logger
     log_filename = f"{os.path.splitext(script_name)[0]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-    log_filepath = os.path.join(_project_root, 'logs', log_filename)
+    log_filepath = os.path.join(run_dir, 'logs', log_filename)
 
-    # Ensure log directory exists
-    os.makedirs(os.path.dirname(log_filepath), exist_ok=True)
+
     
     logger = logging.getLogger(script_name)
     logger.setLevel(logging.INFO)

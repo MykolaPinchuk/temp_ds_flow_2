@@ -3,10 +3,14 @@ import re
 import textwrap
 from graphviz import Digraph
 
-def parse_logs_for_lineage(log_dir):
+def parse_logs_for_lineage(runs_dir):
     """Parses log files to extract file dependencies for lineage."""
     edges = set()
-    log_files = [os.path.join(log_dir, f) for f in os.listdir(log_dir) if f.endswith('.log')]
+    log_files = []
+    for root, _, files in os.walk(runs_dir):
+        for file in files:
+            if file.endswith('.log'):
+                log_files.append(os.path.join(root, file))
 
     for log_file_path in log_files:
         with open(log_file_path, 'r') as f:
@@ -67,13 +71,14 @@ def visualize_lineage(edges, output_path):
 if __name__ == '__main__':
     # Correctly set paths relative to the script location in src/
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    log_directory = os.path.join(project_root, 'logs')
+    runs_directory = os.path.join(project_root, 'runs')
+    # The main report is now saved in the root reports dir, not in a specific run
     reports_directory = os.path.join(project_root, 'reports')
     os.makedirs(reports_directory, exist_ok=True)
-    graph_output_path = os.path.join(reports_directory, 'pipeline_lineage')
+    graph_output_path = os.path.join(reports_directory, 'pipeline_lineage_all_runs')
 
-    if os.path.exists(log_directory):
-        lineage_edges = parse_logs_for_lineage(log_directory)
+    if os.path.exists(runs_directory):
+        lineage_edges = parse_logs_for_lineage(runs_directory)
         visualize_lineage(lineage_edges, graph_output_path)
     else:
-        print(f"Log directory not found at {log_directory}")
+        print(f"Runs directory not found at {runs_directory}")

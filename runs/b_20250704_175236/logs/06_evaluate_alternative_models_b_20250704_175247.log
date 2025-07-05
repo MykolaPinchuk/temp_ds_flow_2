@@ -1,0 +1,15 @@
+2025-07-04 17:52:47,342 - Script: 06_evaluate_alternative_models_b.py
+2025-07-04 17:52:47,342 - Description: Evaluates and compares the trained models for data version b.
+2025-07-04 17:52:47,403 - FILE_READ: runs/b_20250704_175236/data/processed/iris_features_b.csv
+2025-07-04 17:52:47,406 - FILE_READ: runs/b_20250704_175236/data/processed/X_test_b.csv
+2025-07-04 17:52:47,407 - FILE_READ: runs/b_20250704_175236/data/processed/y_test_b.csv
+2025-07-04 17:52:47,732 - PLOT_SAVED: runs/b_20250704_175236/reports/confusion_matrices_b.png
+2025-07-04 17:52:47,732 - METADATA_WRITTEN: runs/b_20250704_175236/reports/metadata/confusion_matrices_b.json
+2025-07-04 17:52:47,877 - END_LOGGING: Script '06_evaluate_alternative_models_b.py'
+2025-07-04 17:52:47,877 - RUN_DURATION: 0.53 seconds
+2025-07-04 17:52:47,877 - SCRIPT_RESULTS:
+{
+    "logistic_regression_accuracy": 1.0,
+    "random_forest_accuracy": 1.0
+}
+2025-07-04 17:52:47,877 - ---
