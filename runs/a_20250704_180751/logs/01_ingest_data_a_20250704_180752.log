@@ -1,0 +1,21 @@
+2025-07-04 18:07:52,298 - Script: 01_ingest_data_a.py
+2025-07-04 18:07:52,298 - Description: Loads the original Iris dataset and saves it to the raw data directory for experiment A.
+2025-07-04 18:07:52,299 - FILE_WRITTEN: runs/a_20250704_180751/data/raw/iris_raw_a.csv
+2025-07-04 18:07:52,303 - END_LOGGING: Script '01_ingest_data_a.py'
+2025-07-04 18:07:52,303 - RUN_DURATION: 0.01 seconds
+2025-07-04 18:07:52,304 - SCRIPT_RESULTS:
+{
+    "rows_ingested": 150,
+    "df_shape": [
+        150,
+        5
+    ],
+    "df_columns": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)",
+        "target"
+    ]
+}
+2025-07-04 18:07:52,304 - ---

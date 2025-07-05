@@ -2,7 +2,7 @@ import sys
 import os
 import pandas as pd
 import joblib
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
 import argparse
@@ -48,9 +48,27 @@ def main(input_version, run_dir):
     rf_accuracy = accuracy_score(y_test, rf_preds)
     rf_cm = confusion_matrix(y_test, rf_preds)
 
+    # Generate classification reports
+    lr_report = classification_report(y_test, lr_preds)
+    rf_report = classification_report(y_test, rf_preds)
+
     print(f"Logistic Regression Accuracy: {lr_accuracy:.4f}")
+    print("Logistic Regression Classification Report:")
+    print(lr_report)
+
     print(f"Random Forest Accuracy: {rf_accuracy:.4f}")
+    print("Random Forest Classification Report:")
+    print(rf_report)
     print(f"--------------------------------")
+
+    # Save classification reports to a file
+    report_path = os.path.join(run_dir, 'reports', f'classification_reports_{input_version}.txt')
+    with open(report_path, 'w') as f:
+        f.write('Logistic Regression Classification Report:\n')
+        f.write(lr_report)
+        f.write('\n\n')
+        f.write('Random Forest Classification Report:\n')
+        f.write(rf_report)
 
     # Generate and save confusion matrix plots
     plt.figure(figsize=(16, 6))
@@ -75,6 +93,8 @@ def main(input_version, run_dir):
         'random_forest_accuracy': rf_accuracy,
         'logistic_regression_cm': lr_cm.tolist(),
         'random_forest_cm': rf_cm.tolist(),
+        'logistic_regression_report': classification_report(y_test, lr_preds, output_dict=True),
+        'random_forest_report': classification_report(y_test, rf_preds, output_dict=True),
         'test_data_shape': {
             'X_test': X_test.shape,
             'y_test': y_test.shape

@@ -12,12 +12,10 @@
 - [x] Refactor 2: Data files naming. How to do it to have them play nicely in a pipeline and extensive experimentation, frequent reruns of the same pipeline etc? Having timing suffix for each file is very convenient but creates clutter. Having a single file for experiemnt will work better in a pipeline, look cleaner in a dir, but destroys information in the older data files. And lineage DAG should contain some information about time as well. Need to think how to achieve our desired functionaly...
 
 
-- [] Refactor 3: For transparecy, I need ability to run each pipeline step separately. I want it to report important metrics to help me better track how it processes data. Things like shapes of df, column names, engineered features, performance etc.
+- [x] Refactor 3: For transparecy, I need ability to run each pipeline step separately. I want it to report important metrics to help me better track how it processes data. Things like shapes of df, column names, engineered features, performance etc.
 
 
-
-
-- [] Enhancement 1: I need more detailed model performance evaluation. I need performance report returns and stored for each experiment. 
+- [] Enhancement 1: I need more detailed model performance evaluation. There exist many metrics for classification problems. I need performance report returned and stored for each experiment. 
 
 Agent, DO NOT DO tasks below yet!
 

@@ -1,0 +1,23 @@
+2025-07-04 18:07:54,941 - Script: 03_eda_a.py
+2025-07-04 18:07:54,941 - Description: Performs EDA on the processed Iris data (a) and saves a pairplot.
+2025-07-04 18:07:54,941 - FILE_READ: runs/a_20250704_180751/data/processed/iris_processed_a.csv
+2025-07-04 18:07:57,545 - PLOT_SAVED: runs/a_20250704_180751/reports/iris_pairplot_a.png
+2025-07-04 18:07:57,545 - METADATA_WRITTEN: runs/a_20250704_180751/reports/metadata/iris_pairplot_a.json
+2025-07-04 18:07:58,437 - END_LOGGING: Script '03_eda_a.py'
+2025-07-04 18:07:58,437 - RUN_DURATION: 3.50 seconds
+2025-07-04 18:07:58,437 - SCRIPT_RESULTS:
+{
+    "plot_generated": "iris_pairplot_a.png",
+    "df_shape": [
+        150,
+        5
+    ],
+    "df_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width",
+        "target"
+    ]
+}
+2025-07-04 18:07:58,437 - ---
