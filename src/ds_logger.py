@@ -36,7 +36,7 @@ def _log_file_read(filepath, *args, **kwargs):
         _log_info['logger'].info(f"FILE_READ: {filepath}")
     return _original_read_csv(filepath, *args, **kwargs)
 
-def _create_metadata(original_path, log_info):
+def _create_metadata(original_path, log_info, model_object=None):
     """Generates a metadata file for the given path."""
     now = datetime.now()
     iso_timestamp = now.isoformat()
@@ -46,6 +46,16 @@ def _create_metadata(original_path, log_info):
         'timestamp': iso_timestamp,
         'script_source': os.path.join(log_info.get('script_path', ''), log_info.get('script_name', '')),
     }
+
+    if model_object and hasattr(model_object, 'get_params'):
+        try:
+            params = model_object.get_params()
+            # Attempt to make parameters JSON serializable
+            serializable_params = {k: str(v) for k, v in params.items()}
+            metadata['hyperparameters'] = serializable_params
+        except Exception as e:
+            if 'logger' in _log_info:
+                _log_info['logger'].warning(f"Could not serialize hyperparameters for {metadata['filename']}: {e}")
 
     # Determine metadata path relative to the project root
     data_dir = os.path.dirname(original_path)
@@ -74,7 +84,7 @@ def _log_model_save(value, filename, *args, **kwargs):
     if 'logger' not in _log_info:
         return _original_joblib_dump(value, filename, *args, **kwargs)
 
-    metadata_filepath = _create_metadata(filename, _log_info)
+    metadata_filepath = _create_metadata(filename, _log_info, model_object=value)
     _log_info['logger'].info(f"MODEL_SAVED: {filename}")
     _log_info['logger'].info(f"METADATA_WRITTEN: {metadata_filepath}")
     return _original_joblib_dump(value, filename, *args, **kwargs)

@@ -1,0 +1,21 @@
+2025-07-04 18:54:35,113 - Script: 01_ingest_data_e.py
+2025-07-04 18:54:35,113 - Description: Introduces missing values into the dataset for experiment E.
+2025-07-04 18:54:35,113 - FILE_WRITTEN: runs/e_20250704_185433/data/raw/iris_raw_e.csv
+2025-07-04 18:54:35,116 - END_LOGGING: Script '01_ingest_data_e.py'
+2025-07-04 18:54:35,116 - RUN_DURATION: 0.00 seconds
+2025-07-04 18:54:35,116 - SCRIPT_RESULTS:
+{
+    "rows_ingested": 150,
+    "df_shape": [
+        150,
+        5
+    ],
+    "df_columns": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)",
+        "target"
+    ]
+}
+2025-07-04 18:54:35,116 - ---

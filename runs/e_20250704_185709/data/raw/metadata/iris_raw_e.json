@@ -1,0 +1,5 @@
+{
+    "filename": "iris_raw_e.csv",
+    "timestamp": "2025-07-04T18:57:10.322606",
+    "script_source": "scripts/01_ingest_data_e.py"
+}

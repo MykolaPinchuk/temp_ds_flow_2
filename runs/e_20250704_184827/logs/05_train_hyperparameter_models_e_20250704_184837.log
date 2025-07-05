@@ -1,0 +1,204 @@
+2025-07-04 18:48:37,374 - Script: 05_train_hyperparameter_models_e.py
+2025-07-04 18:48:37,374 - Description: Trains multiple RF and XGBoost models with different hyperparameters on data version e.
+2025-07-04 18:48:37,374 - FILE_READ: runs/e_20250704_184827/data/processed/iris_features_e.csv
+2025-07-04 18:48:37,379 - FILE_WRITTEN: runs/e_20250704_184827/data/processed/X_test_e.csv
+2025-07-04 18:48:37,446 - MODEL_SAVED: runs/e_20250704_184827/models/iris_rf_1_e.joblib
+2025-07-04 18:48:37,446 - METADATA_WRITTEN: runs/e_20250704_184827/models/metadata/iris_rf_1_e.json
+2025-07-04 18:48:37,587 - MODEL_SAVED: runs/e_20250704_184827/models/iris_rf_2_e.joblib
+2025-07-04 18:48:37,587 - METADATA_WRITTEN: runs/e_20250704_184827/models/metadata/iris_rf_2_e.json
+2025-07-04 18:48:37,851 - MODEL_SAVED: runs/e_20250704_184827/models/iris_rf_3_e.joblib
+2025-07-04 18:48:37,851 - METADATA_WRITTEN: runs/e_20250704_184827/models/metadata/iris_rf_3_e.json
+2025-07-04 18:48:37,943 - MODEL_SAVED: runs/e_20250704_184827/models/iris_xgb_1_e.joblib
+2025-07-04 18:48:37,943 - METADATA_WRITTEN: runs/e_20250704_184827/models/metadata/iris_xgb_1_e.json
+2025-07-04 18:48:37,997 - MODEL_SAVED: runs/e_20250704_184827/models/iris_xgb_2_e.joblib
+2025-07-04 18:48:37,997 - METADATA_WRITTEN: runs/e_20250704_184827/models/metadata/iris_xgb_2_e.json
+2025-07-04 18:48:38,001 - END_LOGGING: Script '05_train_hyperparameter_models_e.py'
+2025-07-04 18:48:38,001 - RUN_DURATION: 0.63 seconds
+2025-07-04 18:48:38,001 - SCRIPT_RESULTS:
+{
+    "data_shapes": {
+        "input_df": [
+            150,
+            6
+        ],
+        "X_train": [
+            120,
+            5
+        ],
+        "X_test": [
+            30,
+            5
+        ],
+        "y_train": [
+            120
+        ],
+        "y_test": [
+            30
+        ]
+    },
+    "model_performance": {
+        "rf_1": {
+            "accuracy": 0.7,
+            "hyperparameters": {
+                "bootstrap": "True",
+                "ccp_alpha": "0.0",
+                "class_weight": "None",
+                "criterion": "gini",
+                "max_depth": "10",
+                "max_features": "sqrt",
+                "max_leaf_nodes": "None",
+                "max_samples": "None",
+                "min_impurity_decrease": "0.0",
+                "min_samples_leaf": "1",
+                "min_samples_split": "2",
+                "min_weight_fraction_leaf": "0.0",
+                "monotonic_cst": "None",
+                "n_estimators": "50",
+                "n_jobs": "None",
+                "oob_score": "False",
+                "random_state": "42",
+                "verbose": "0",
+                "warm_start": "False"
+            }
+        },
+        "rf_2": {
+            "accuracy": 0.7,
+            "hyperparameters": {
+                "bootstrap": "True",
+                "ccp_alpha": "0.0",
+                "class_weight": "None",
+                "criterion": "gini",
+                "max_depth": "20",
+                "max_features": "sqrt",
+                "max_leaf_nodes": "None",
+                "max_samples": "None",
+                "min_impurity_decrease": "0.0",
+                "min_samples_leaf": "1",
+                "min_samples_split": "2",
+                "min_weight_fraction_leaf": "0.0",
+                "monotonic_cst": "None",
+                "n_estimators": "100",
+                "n_jobs": "None",
+                "oob_score": "False",
+                "random_state": "42",
+                "verbose": "0",
+                "warm_start": "False"
+            }
+        },
+        "rf_3": {
+            "accuracy": 0.7,
+            "hyperparameters": {
+                "bootstrap": "True",
+                "ccp_alpha": "0.0",
+                "class_weight": "None",
+                "criterion": "gini",
+                "max_depth": "None",
+                "max_features": "sqrt",
+                "max_leaf_nodes": "None",
+                "max_samples": "None",
+                "min_impurity_decrease": "0.0",
+                "min_samples_leaf": "1",
+                "min_samples_split": "2",
+                "min_weight_fraction_leaf": "0.0",
+                "monotonic_cst": "None",
+                "n_estimators": "200",
+                "n_jobs": "None",
+                "oob_score": "False",
+                "random_state": "42",
+                "verbose": "0",
+                "warm_start": "False"
+            }
+        },
+        "xgb_1": {
+            "accuracy": 0.7,
+            "hyperparameters": {
+                "objective": "multi:softprob",
+                "base_score": "None",
+                "booster": "None",
+                "callbacks": "None",
+                "colsample_bylevel": "None",
+                "colsample_bynode": "None",
+                "colsample_bytree": "None",
+                "device": "None",
+                "early_stopping_rounds": "None",
+                "enable_categorical": "False",
+                "eval_metric": "mlogloss",
+                "feature_types": "None",
+                "gamma": "None",
+                "grow_policy": "None",
+                "importance_type": "None",
+                "interaction_constraints": "None",
+                "learning_rate": "None",
+                "max_bin": "None",
+                "max_cat_threshold": "None",
+                "max_cat_to_onehot": "None",
+                "max_delta_step": "None",
+                "max_depth": "3",
+                "max_leaves": "None",
+                "min_child_weight": "None",
+                "missing": "nan",
+                "monotone_constraints": "None",
+                "multi_strategy": "None",
+                "n_estimators": "50",
+                "n_jobs": "None",
+                "num_parallel_tree": "None",
+                "random_state": "42",
+                "reg_alpha": "None",
+                "reg_lambda": "None",
+                "sampling_method": "None",
+                "scale_pos_weight": "None",
+                "subsample": "None",
+                "tree_method": "None",
+                "validate_parameters": "None",
+                "verbosity": "None",
+                "use_label_encoder": "False"
+            }
+        },
+        "xgb_2": {
+            "accuracy": 0.7,
+            "hyperparameters": {
+                "objective": "multi:softprob",
+                "base_score": "None",
+                "booster": "None",
+                "callbacks": "None",
+                "colsample_bylevel": "None",
+                "colsample_bynode": "None",
+                "colsample_bytree": "None",
+                "device": "None",
+                "early_stopping_rounds": "None",
+                "enable_categorical": "False",
+                "eval_metric": "mlogloss",
+                "feature_types": "None",
+                "gamma": "None",
+                "grow_policy": "None",
+                "importance_type": "None",
+                "interaction_constraints": "None",
+                "learning_rate": "None",
+                "max_bin": "None",
+                "max_cat_threshold": "None",
+                "max_cat_to_onehot": "None",
+                "max_delta_step": "None",
+                "max_depth": "5",
+                "max_leaves": "None",
+                "min_child_weight": "None",
+                "missing": "nan",
+                "monotone_constraints": "None",
+                "multi_strategy": "None",
+                "n_estimators": "100",
+                "n_jobs": "None",
+                "num_parallel_tree": "None",
+                "random_state": "42",
+                "reg_alpha": "None",
+                "reg_lambda": "None",
+                "sampling_method": "None",
+                "scale_pos_weight": "None",
+                "subsample": "None",
+                "tree_method": "None",
+                "validate_parameters": "None",
+                "verbosity": "None",
+                "use_label_encoder": "False"
+            }
+        }
+    }
+}
+2025-07-04 18:48:38,001 - ---
