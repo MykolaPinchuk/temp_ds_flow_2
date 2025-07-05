@@ -15,13 +15,15 @@
 - [x] Refactor 3: For transparecy, I need ability to run each pipeline step separately. I want it to report important metrics to help me better track how it processes data. Things like shapes of df, column names, engineered features, performance etc.
 
 
-- [] Enhancement 1: I need more detailed model performance evaluation. There exist many metrics for classification problems. I need performance report returned and stored for each experiment. 
+- [x] Enhancement 1: I need more detailed model performance evaluation. There exist many metrics for classification problems. I need performance report returned and stored for each experiment. 
+
+
+- [x] Experiment 3: lets simulate getting new data similarly to the Example 2. Now add 100% more data. And add some randomization in order to make training models more challenging.
+
+
+- [x] Experiment 4: add categorical variable (e.g., a, b, c, d, e) which has complex and noisy relation to the target. Then adjust the whole pipeline to deal with it.
+- [x] Experiment 5: add interaction variables (e.g., a*b, a*c, a*d, a*e, b*c, b*d, b*e, c*d, c*e, d*e) which have complex and noisy relation to the target. Then adjust the whole pipeline to deal with it.
+
+- Enhancement 2: I need to see model hyperparaemters stored somewhere. If there are there already, then I cannot find, so make their location more intuitive. And then I want to run several models with different hyperparaemters to see whether model with looser hyperparameters can learn the classification better. Train 3 versions of RF and 2 versions of XGB. Feel free to call these runs as experiments if needed.
 
 Agent, DO NOT DO tasks below yet!
-
-- [] Example 3: lets simulate gettin new data similarly to the Example 2. Now add 100% more data. And add some randomization in order to make training models more challenging.
-- [] Example 4: add categorical variable (e.g., a, b, c, d, e) which has complex and noisy relation to the target. Then adjust the whole pipeline to deal with it.
-- [] Example 5: add interaction variables (e.g., a*b, a*c, a*d, a*e, b*c, b*d, b*e, c*d, c*e, d*e) which have complex and noisy relation to the target. Then adjust the whole pipeline to deal with it.
-
-
-- automating notebook runs.

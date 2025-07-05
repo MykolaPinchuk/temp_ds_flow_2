@@ -83,7 +83,7 @@ def main(input_version, run_dir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Train models on Iris data.')
-    parser.add_argument('--input_version', type=str, required=True, choices=['a', 'b'],
+    parser.add_argument('--input_version', type=str, required=True, choices=['a', 'b', 'c', 'd', 'e'],
                         help="Version of the feature data to use ('a' or 'b')")
     parser.add_argument('--run_dir', type=str, required=True, help='The directory for this run.')
     args = parser.parse_args()

@@ -2,22 +2,22 @@
 
 # This script runs the full data science pipeline for a specified version.
 # It creates a self-contained directory for each run to store all outputs.
-# Usage: ./run_pipeline.sh [a|b]
+# Usage: ./run_pipeline.sh [a|b|c|d|e]
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
 # Check if a version is provided
 if [ -z "$1" ]; then
-    echo "Error: No version specified. Usage: ./run_pipeline.sh [a|b]"
+    echo "Error: No version specified. Usage: ./run_pipeline.sh [a|b|c|d|e]"
     exit 1
 fi
 
 VERSION=$1
 
 # Validate the version
-if [ "$VERSION" != "a" ] && [ "$VERSION" != "b" ]; then
-    echo "Error: Invalid version. Please use 'a' or 'b'."
+if [ "$VERSION" != "a" ] && [ "$VERSION" != "b" ] && [ "$VERSION" != "c" ] && [ "$VERSION" != "d" ] && [ "$VERSION" != "e" ]; then
+    echo "Error: Invalid version. Please use 'a', 'b', 'c', 'd', or 'e'."
     exit 1
 fi
 

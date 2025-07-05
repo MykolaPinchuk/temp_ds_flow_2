@@ -20,7 +20,19 @@ def main(input_version, run_dir):
     df_initial_columns = df.columns.tolist()
 
     # Clean column names
+    # Impute missing values with the mean
+    if df.isnull().sum().sum() > 0:
+        print("Found missing values. Applying mean imputation.")
+        for col in df.columns:
+            if df[col].isnull().any() and pd.api.types.is_numeric_dtype(df[col]):
+                df[col].fillna(df[col].mean(), inplace=True)
+
     df.columns = df.columns.str.replace(' (cm)', '', regex=False).str.replace(' ', '_')
+
+    # One-hot encode the categorical feature if it exists
+    if 'categorical_feature' in df.columns:
+        print("Found categorical feature. Applying one-hot encoding.")
+        df = pd.get_dummies(df, columns=['categorical_feature'], prefix='cat')
 
     print(f"--- Data Preprocessing Metrics ---")
     print(f"Initial DataFrame shape: {df_initial_shape}")
@@ -44,7 +56,7 @@ def main(input_version, run_dir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Preprocess Iris data.')
-    parser.add_argument('--input_version', type=str, required=True, choices=['a', 'b'],
+    parser.add_argument('--input_version', type=str, required=True, choices=['a', 'b', 'c', 'd', 'e'],
                         help="Version of the raw data to process ('a' or 'b')")
     parser.add_argument('--run_dir', type=str, required=True, help='The directory for this run.')
     args = parser.parse_args()

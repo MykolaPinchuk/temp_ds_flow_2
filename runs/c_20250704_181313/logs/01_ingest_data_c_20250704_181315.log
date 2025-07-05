@@ -1,0 +1,21 @@
+2025-07-04 18:13:15,253 - Script: 01_ingest_data_c.py
+2025-07-04 18:13:15,253 - Description: Simulates a 100% data increase with added noise for experiment C.
+2025-07-04 18:13:15,253 - FILE_WRITTEN: runs/c_20250704_181313/data/raw/iris_raw_c.csv
+2025-07-04 18:13:15,257 - END_LOGGING: Script '01_ingest_data_c.py'
+2025-07-04 18:13:15,257 - RUN_DURATION: 0.00 seconds
+2025-07-04 18:13:15,257 - SCRIPT_RESULTS:
+{
+    "rows_ingested": 300,
+    "df_shape": [
+        300,
+        5
+    ],
+    "df_columns": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)",
+        "target"
+    ]
+}
+2025-07-04 18:13:15,257 - ---

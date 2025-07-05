@@ -1,0 +1,22 @@
+2025-07-04 18:15:26,716 - Script: 01_ingest_data_d.py
+2025-07-04 18:15:26,716 - Description: Adds a noisy categorical feature for experiment D.
+2025-07-04 18:15:26,716 - FILE_WRITTEN: runs/d_20250704_181525/data/raw/iris_raw_d.csv
+2025-07-04 18:15:26,719 - END_LOGGING: Script '01_ingest_data_d.py'
+2025-07-04 18:15:26,719 - RUN_DURATION: 0.00 seconds
+2025-07-04 18:15:26,719 - SCRIPT_RESULTS:
+{
+    "rows_ingested": 150,
+    "df_shape": [
+        150,
+        6
+    ],
+    "df_columns": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)",
+        "target",
+        "categorical_feature"
+    ]
+}
+2025-07-04 18:15:26,719 - ---
