@@ -2,7 +2,6 @@ import sys
 import os
 import pandas as pd
 import joblib
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -28,10 +27,11 @@ def main(input_version):
     features_path = f'data/processed/iris_features_{input_version}.csv'
     df = pd.read_csv(features_path)
 
-    # Prepare data for evaluation
-    X = df.drop('target', axis=1)
-    y = df['target']
-    _, X_test, _, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Load the test set for consistent evaluation
+    X_test_path = f'data/processed/X_test_{input_version}.csv'
+    y_test_path = f'data/processed/y_test_{input_version}.csv'
+    X_test = pd.read_csv(X_test_path)
+    y_test = pd.read_csv(y_test_path)
 
     # Evaluate Logistic Regression
     lr_preds = lr_model.predict(X_test)

@@ -9,7 +9,7 @@
 - [x] Refactor 1b: Add back notebooks dir. It will be used for EDA notebooks only. LLM agent will create .py scripts with all the logic for such EDA notebooks abd convert them into notebook with the same name. Huma developer will then run and edit such notebooks. This will allow each agentic entity to focus on what it does best.
 - [x] Refactor 1c: Add capability to run the whole pipeline of .py sscripts with a single click. Do not overengineer.
 
-DO NOT DO tasks below yet!
+Agent, DO NOT DO tasks below yet!
 
 - [] Refactor 2: Data files naming. How to do it to have them play nicely in a pipeline and extensive experimentation, frequent reruns of the same pipeline etc? Having timing suffix for each file is very convenient but creates clutter. Having a single file for experiemnt will work better in a pipeline, look cleaner in a dir, but destroys information in the older data files. And lineage DAG should contain some information about time as well.Need to think how to achieve our desired functionaly...
 
@@ -18,7 +18,10 @@ DO NOT DO tasks below yet!
 
 
 
-- [] Example 2b clean-up and verification. Is everything working as intended? What if I want to run original data pipeline?
+- [] Enhancement 1: I need more detailed model performance evaluation. I need performance report returns and stored for each experiment. 
+
+
+
 - [] Example 3: lets simulate gettin new data similarly to the Example 2. Now add 100% more data. And add some randomization in order to make training models more challenging.
 - [] Example 4: add categorical variable (e.g., a, b, c, d, e) which has complex and noisy relation to the target. Then adjust the whole pipeline to deal with it.
 - [] Example 5: add interaction variables (e.g., a*b, a*c, a*d, a*e, b*c, b*d, b*e, c*d, c*e, d*e) which have complex and noisy relation to the target. Then adjust the whole pipeline to deal with it.

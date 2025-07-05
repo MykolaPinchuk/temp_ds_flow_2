@@ -27,6 +27,12 @@ def main(input_version):
     y = df['target']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    # Save the test set for consistent evaluation
+    X_test_path = f'data/processed/X_test_{input_version}.csv'
+    y_test_path = f'data/processed/y_test_{input_version}.csv'
+    X_test.to_csv(X_test_path, index=False)
+    y_test.to_csv(y_test_path, index=False)
+
     # Train and evaluate Logistic Regression
     lr_model = LogisticRegression(max_iter=1000)
     lr_model.fit(X_train, y_train)
