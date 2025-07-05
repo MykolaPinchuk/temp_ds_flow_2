@@ -27,6 +27,14 @@ def main(input_version, run_dir):
     y = df['target']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    print(f"--- Data Splitting Metrics ---")
+    print(f"Input DataFrame shape: {df.shape}")
+    print(f"X_train shape: {X_train.shape}")
+    print(f"X_test shape: {X_test.shape}")
+    print(f"y_train shape: {y_train.shape}")
+    print(f"y_test shape: {y_test.shape}")
+    print(f"------------------------------")
+
     # Save the test set for consistent evaluation
     X_test_path = os.path.join(run_dir, 'data', 'processed', f'X_test_{input_version}.csv')
     y_test_path = os.path.join(run_dir, 'data', 'processed', f'y_test_{input_version}.csv')
@@ -34,7 +42,7 @@ def main(input_version, run_dir):
     y_test.to_csv(y_test_path, index=False)
 
     # Train and evaluate Logistic Regression
-    lr_model = LogisticRegression(max_iter=1000)
+    lr_model = LogisticRegression(max_iter=200)
     lr_model.fit(X_train, y_train)
     lr_preds = lr_model.predict(X_test)
     lr_accuracy = accuracy_score(y_test, lr_preds)
@@ -49,7 +57,19 @@ def main(input_version, run_dir):
     rf_model_path = os.path.join(run_dir, 'models', f'iris_random_forest_{input_version}.joblib')
     joblib.dump(rf_model, rf_model_path)
 
+    print(f"--- Model Performance Metrics ---")
+    print(f"Logistic Regression Accuracy: {lr_accuracy:.4f}")
+    print(f"Random Forest Accuracy: {rf_accuracy:.4f}")
+    print(f"---------------------------------")
+
     results = {
+        'data_shapes': {
+            'input_df': df.shape,
+            'X_train': X_train.shape,
+            'X_test': X_test.shape,
+            'y_train': y_train.shape,
+            'y_test': y_test.shape,
+        },
         'logistic_regression': {
             'hyperparameters': lr_model.get_params(),
             'accuracy': lr_accuracy

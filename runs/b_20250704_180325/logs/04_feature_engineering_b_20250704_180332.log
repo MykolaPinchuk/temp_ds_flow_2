@@ -1,0 +1,36 @@
+2025-07-04 18:03:32,995 - Script: 04_feature_engineering_b.py
+2025-07-04 18:03:32,995 - Description: Creates a new feature, 'sepal_area', from the processed Iris data (b).
+2025-07-04 18:03:32,995 - FILE_READ: runs/b_20250704_180325/data/processed/iris_processed_b.csv
+2025-07-04 18:03:33,000 - FILE_WRITTEN: runs/b_20250704_180325/data/processed/iris_features_b.csv
+2025-07-04 18:03:33,001 - END_LOGGING: Script '04_feature_engineering_b.py'
+2025-07-04 18:03:33,001 - RUN_DURATION: 0.01 seconds
+2025-07-04 18:03:33,002 - SCRIPT_RESULTS:
+{
+    "features_created": [
+        "sepal_area"
+    ],
+    "initial_df_shape": [
+        225,
+        5
+    ],
+    "initial_df_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width",
+        "target"
+    ],
+    "processed_df_shape": [
+        225,
+        6
+    ],
+    "processed_df_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width",
+        "target",
+        "sepal_area"
+    ]
+}
+2025-07-04 18:03:33,002 - ---

@@ -28,11 +28,21 @@ def main(dataset_version, run_dir):
     
     start_logging(script_name=script_name, script_description=script_description, run_dir=run_dir)
 
+    print(f"--- Data Ingestion Metrics ---")
+    print(f"DataFrame shape: {df.shape}")
+    print(f"DataFrame columns: {df.columns.tolist()}")
+    print(f"------------------------------")
+
     # Save raw data
     raw_data_path = os.path.join(run_dir, 'data', 'raw', f'iris_raw_{dataset_version}.csv')
     df.to_csv(raw_data_path, index=False)
 
-    end_logging(results={'rows_ingested': len(df)})
+    results = {
+        'rows_ingested': len(df),
+        'df_shape': df.shape,
+        'df_columns': df.columns.tolist()
+    }
+    end_logging(results=results)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Ingest Iris data for a specific experiment version.')

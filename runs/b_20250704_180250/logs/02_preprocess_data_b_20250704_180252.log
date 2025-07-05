@@ -1,0 +1,33 @@
+2025-07-04 18:02:52,257 - Script: 02_preprocess_data_b.py
+2025-07-04 18:02:52,257 - Description: Cleans and preprocesses the raw Iris data for version b.
+2025-07-04 18:02:52,257 - FILE_READ: runs/b_20250704_180250/data/raw/iris_raw_b.csv
+2025-07-04 18:02:52,261 - FILE_WRITTEN: runs/b_20250704_180250/data/processed/iris_processed_b.csv
+2025-07-04 18:02:52,263 - END_LOGGING: Script '02_preprocess_data_b.py'
+2025-07-04 18:02:52,263 - RUN_DURATION: 0.01 seconds
+2025-07-04 18:02:52,263 - SCRIPT_RESULTS:
+{
+    "processed_rows": 225,
+    "initial_df_shape": [
+        225,
+        5
+    ],
+    "initial_df_columns": [
+        "sepal length (cm)",
+        "sepal width (cm)",
+        "petal length (cm)",
+        "petal width (cm)",
+        "target"
+    ],
+    "processed_df_shape": [
+        225,
+        5
+    ],
+    "processed_df_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width",
+        "target"
+    ]
+}
+2025-07-04 18:02:52,263 - ---

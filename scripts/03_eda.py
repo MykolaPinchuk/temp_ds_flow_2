@@ -19,6 +19,11 @@ def main(input_version, run_dir):
     processed_data_path = os.path.join(run_dir, 'data', 'processed', f'iris_processed_{input_version}.csv')
     df = pd.read_csv(processed_data_path)
 
+    print(f"--- EDA Metrics ---")
+    print(f"DataFrame shape: {df.shape}")
+    print(f"DataFrame columns: {df.columns.tolist()}")
+    print(f"---------------------")
+
     # Generate pairplot
     sns.pairplot(df, hue='target')
 
@@ -26,7 +31,12 @@ def main(input_version, run_dir):
     plot_path = os.path.join(run_dir, 'reports', f'iris_pairplot_{input_version}.png')
     plt.savefig(plot_path)
 
-    end_logging(results={'plot_generated': os.path.basename(plot_path)})
+    results = {
+        'plot_generated': os.path.basename(plot_path),
+        'df_shape': df.shape,
+        'df_columns': df.columns.tolist()
+    }
+    end_logging(results=results)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Perform EDA on Iris data.')

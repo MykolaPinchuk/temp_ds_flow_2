@@ -16,15 +16,31 @@ def main(input_version, run_dir):
     # Load raw data
     raw_data_path = os.path.join(run_dir, 'data', 'raw', f'iris_raw_{input_version}.csv')
     df = pd.read_csv(raw_data_path)
+    df_initial_shape = df.shape
+    df_initial_columns = df.columns.tolist()
 
     # Clean column names
     df.columns = df.columns.str.replace(' (cm)', '', regex=False).str.replace(' ', '_')
+
+    print(f"--- Data Preprocessing Metrics ---")
+    print(f"Initial DataFrame shape: {df_initial_shape}")
+    print(f"Initial DataFrame columns: {df_initial_columns}")
+    print(f"Processed DataFrame shape: {df.shape}")
+    print(f"Processed DataFrame columns: {df.columns.tolist()}")
+    print(f"----------------------------------")
 
     # Save processed data
     processed_data_path = os.path.join(run_dir, 'data', 'processed', f'iris_processed_{input_version}.csv')
     df.to_csv(processed_data_path, index=False)
 
-    end_logging(results={'processed_rows': len(df), 'processed_columns': list(df.columns)})
+    results = {
+        'processed_rows': len(df),
+        'initial_df_shape': df_initial_shape,
+        'initial_df_columns': df_initial_columns,
+        'processed_df_shape': df.shape,
+        'processed_df_columns': df.columns.tolist()
+    }
+    end_logging(results=results)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Preprocess Iris data.')

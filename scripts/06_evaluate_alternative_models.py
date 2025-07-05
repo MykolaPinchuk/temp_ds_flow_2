@@ -33,6 +33,11 @@ def main(input_version, run_dir):
     X_test = pd.read_csv(X_test_path)
     y_test = pd.read_csv(y_test_path)
 
+    print(f"--- Model Evaluation Metrics ---")
+    print(f"X_test shape: {X_test.shape}")
+    print(f"y_test shape: {y_test.shape}")
+    print(f"--------------------------------")
+
     # Evaluate Logistic Regression
     lr_preds = lr_model.predict(X_test)
     lr_accuracy = accuracy_score(y_test, lr_preds)
@@ -42,6 +47,10 @@ def main(input_version, run_dir):
     rf_preds = rf_model.predict(X_test)
     rf_accuracy = accuracy_score(y_test, rf_preds)
     rf_cm = confusion_matrix(y_test, rf_preds)
+
+    print(f"Logistic Regression Accuracy: {lr_accuracy:.4f}")
+    print(f"Random Forest Accuracy: {rf_accuracy:.4f}")
+    print(f"--------------------------------")
 
     # Generate and save confusion matrix plots
     plt.figure(figsize=(16, 6))
@@ -63,7 +72,13 @@ def main(input_version, run_dir):
 
     results = {
         'logistic_regression_accuracy': lr_accuracy,
-        'random_forest_accuracy': rf_accuracy
+        'random_forest_accuracy': rf_accuracy,
+        'logistic_regression_cm': lr_cm.tolist(),
+        'random_forest_cm': rf_cm.tolist(),
+        'test_data_shape': {
+            'X_test': X_test.shape,
+            'y_test': y_test.shape
+        }
     }
     end_logging(results=results)
 
